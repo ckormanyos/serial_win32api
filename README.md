@@ -1,6 +1,11 @@
 serial_win32api
 ==================
 
+<p align="center">
+    <a href="https://github.com/ckormanyos/serial_win32api/actions">
+        <img src="https://github.com/ckormanyos/serial_win32api/actions/workflows/serial_win32api.yml/badge.svg" alt="Build Status"></a>
+</p>
+
 serial_win32api implements a modernized, C++14, header-only serial (COM) driver
 for use with the classic Win32-API.
 

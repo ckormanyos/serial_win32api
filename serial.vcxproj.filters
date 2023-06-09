@@ -11,10 +11,10 @@
     <Filter Include="_doc">
       <UniqueIdentifier>{85912093-03e1-4142-bd17-bf39782c8370}</UniqueIdentifier>
     </Filter>
-    <Filter Include="_doc\.github">
+    <Filter Include=".github">
       <UniqueIdentifier>{eafa47ba-20aa-474a-b423-208d23a780dd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="_doc\.github\workflows">
+    <Filter Include=".github\workflows">
       <UniqueIdentifier>{d99e661f-143e-42d6-af96-5e888d7dc094}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -39,7 +39,7 @@
       <Filter>_doc</Filter>
     </None>
     <None Include=".github\workflows\serial_win32api.yml">
-      <Filter>_doc\.github\workflows</Filter>
+      <Filter>.github\workflows</Filter>
     </None>
   </ItemGroup>
 </Project>
