@@ -8,6 +8,8 @@
 #ifndef SERIAL_1998_11_23_H
   #define SERIAL_1998_11_23_H
 
+  #include <array>
+  #include <cstddef>
   #include <cstdint>
   #include <limits>
   #include <vector>
