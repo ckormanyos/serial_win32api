@@ -92,47 +92,57 @@
       return this->do_send(data);
     }
 
+    template<typename InputIteratorType>
+    auto send(InputIteratorType first, InputIteratorType last) -> bool
+    {
+      const auto vin = ::std::vector<std::uint8_t>(first, last);
+
+      return this->do_send(vin);
+    }
+
     auto send(const std::uint8_t b) -> bool
     {
-      const auto vb = ::std::vector<std::uint8_t>(static_cast<std::size_t>(UINT8_C(1)), b);
+      using array_one_byte_type = ::std::array<std::uint8_t, static_cast<std::size_t>(UINT8_C(1))>;
 
-      return this->do_send(vb);
+      const auto ar1 = array_one_byte_type { b };
+
+      return send(ar1.cbegin(), ar1.cend());
     }
 
     auto set_chan(const std::uint32_t ch) -> bool
     {
-      auto result = bool { };
+      auto result_set_chan_is_ok = bool { };
 
       if((!m_is_error) && (!m_is_open))
       {
         m_scb.channel = ch;
 
-        result = true;
+        result_set_chan_is_ok = true;
       }
       else
       {
-        result = false;
+        result_set_chan_is_ok = false;
       }
 
-      return result;
+      return result_set_chan_is_ok;
     }
 
     auto set_baud(const std::uint32_t bd) -> bool
     {
-      auto result = bool { };
+      auto result_set_baud_is_ok = bool { };
 
       if((!m_is_error) && (!m_is_open))
       {
         m_scb.baud = bd;
 
-        result = true;
+        result_set_baud_is_ok = true;
       }
       else
       {
-        result = false;
+        result_set_baud_is_ok = false;
       }
 
-      return result;
+      return result_set_baud_is_ok;
     }
 
     auto valid() const -> bool { return (is_open() && (!is_error())); }
@@ -140,8 +150,8 @@
   protected:
     t_scb m_scb { (std::numeric_limits<std::uint32_t>::max)() };
 
-    bool  m_is_open  { false };
-    bool  m_is_error { false };
+    bool m_is_open  { false };
+    bool m_is_error { false };
 
     bool is_open() const { return m_is_open;  }
     bool is_error() const { return m_is_error; }
