@@ -8,8 +8,6 @@
 #ifndef SERIAL_WIN32_API_1998_11_23_H
   #define SERIAL_WIN32_API_1998_11_23_H
 
-  #include <array>
-
   #include <windows.h>
 
   #include <serial.h>
@@ -228,12 +226,12 @@
           scb.channel + static_cast<std::uint32_t>(UINT8_C(0x30))
         );
 
-      my_handle = ::CreateFile(static_cast<LPCSTR>(str_channel.data()),
-                               GENERIC_READ | GENERIC_WRITE,
-                               0,
+      my_handle = ::CreateFile(str_channel.data(),
+                               static_cast<DWORD>(GENERIC_READ | GENERIC_WRITE),
+                               static_cast<DWORD>(UINT8_C(0)),
                                nullptr,
-                               OPEN_EXISTING,
-                               0,
+                               static_cast<DWORD>(OPEN_EXISTING),
+                               static_cast<DWORD>(UINT8_C(0)),
                                nullptr);
 
       if(my_handle == INVALID_HANDLE_VALUE)
