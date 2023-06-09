@@ -25,5 +25,5 @@ jobs:
         shell: cmd
         working-directory: ./
         run: |
-          MSBuild -m wide_integer.sln -p:useenv=false -p:Configuration=Release -p:Platform=x64 /t:Rebuild
+          MSBuild -m serial.sln -p:useenv=false -p:Configuration=Release -p:Platform=x64 /t:Rebuild
           dir %cd%\x64\Release\serial.exe
