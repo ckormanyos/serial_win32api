@@ -8,6 +8,15 @@
     <Filter Include="Source Files\serial">
       <UniqueIdentifier>{bc2f44f4-ada8-4736-ad01-48eb364cd69f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="_doc">
+      <UniqueIdentifier>{85912093-03e1-4142-bd17-bf39782c8370}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_doc\.github">
+      <UniqueIdentifier>{eafa47ba-20aa-474a-b423-208d23a780dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_doc\.github\workflows">
+      <UniqueIdentifier>{d99e661f-143e-42d6-af96-5e888d7dc094}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="test.cpp">
@@ -24,5 +33,13 @@
     <ClInclude Include="util_sleep.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md">
+      <Filter>_doc</Filter>
+    </None>
+    <None Include=".github\workflows\serial_win32api.yml">
+      <Filter>_doc\.github\workflows</Filter>
+    </None>
   </ItemGroup>
 </Project>
