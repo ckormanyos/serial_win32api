@@ -4,10 +4,10 @@
 
 auto main() -> int
 {
-  // Open COM3
+  // Open COM3.
   serial_win32api ser { static_cast<std::uint32_t>(UINT8_C(3)) };
 
-  // Check validity.
+  // Check the validity of the just-opened COM3.
   if(ser.valid())
   {
     // Send three bytes.

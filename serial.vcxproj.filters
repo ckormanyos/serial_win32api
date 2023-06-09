@@ -5,6 +5,9 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Source Files\serial">
+      <UniqueIdentifier>{bc2f44f4-ada8-4736-ad01-48eb364cd69f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="test.cpp">
@@ -12,12 +15,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="serial_win32api.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="serial.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="vacuum_fluorescent_display_base.h">
       <Filter>Source Files</Filter>
     </ClInclude>
