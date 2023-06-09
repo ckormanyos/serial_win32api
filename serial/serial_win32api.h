@@ -91,13 +91,15 @@
                                  | PURGE_RXCLEAR)
         );
 
-        static_cast<void>(::CloseHandle(my_handle));
+        {
+          const auto b_close = ::CloseHandle(my_handle);
+
+          result_close_is_ok = (b_close == TRUE);
+        }
 
         my_handle = nullptr;
 
         m_is_open = false;
-
-        result_close_is_ok = true;
       }
       else
       {
@@ -392,7 +394,7 @@
                 (
                   ::WriteFile(my_handle,
                               static_cast<LPCVOID>(send_buf.data() + static_cast<std::size_t>(number)),
-                              send_size,
+                              static_cast<DWORD>(send_size),
                               &bytes_written,
                               nullptr)
                 );
