@@ -5,8 +5,6 @@
 //  or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#include <vector>
-
 #include <serial_win32api.h>
 
 auto main() -> int
@@ -14,10 +12,10 @@ auto main() -> int
   // Open COM3.
   serial_win32api ser { static_cast<std::uint32_t>(UINT8_C(3)) };
 
-  // Check the validity of the just-opened COM3.
+  // Check the validity of COM3.
   if(ser.valid())
   {
-    // Send three bytes.
+    // Send three bytes over COM3.
 
     const auto bytes_to_send =
       std::vector<std::uint8_t>
