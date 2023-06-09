@@ -11,7 +11,7 @@ for use with C++14 and beyond.
 
 Using serial_win32api is straightforward.
   - Include the header `serial_win32api.h`.
-  - Ensure that its path is included within the compiler's include paths.
+  - Ensure that its path is included in the compiler's include paths.
   - Use the constructor, and the `send()` and `recv()` functions.
 
 ```cpp
@@ -21,13 +21,13 @@ Using serial_win32api is straightforward.
 
 auto main() -> int
 {
-  // Open COM3
+  // Open COM3.
   serial_win32api ser { static_cast<std::uint32_t>(UINT8_C(3)) };
 
-  // Check validity.
+  // Check validity of COM3.
   if(ser.valid())
   {
-    // Send three bytes.
+    // Send three bytes over COM3.
 
     const auto bytes_to_send =
       std::vector<std::uint8_t>
