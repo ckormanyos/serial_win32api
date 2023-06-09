@@ -9,15 +9,14 @@ serial_win32api
 serial_win32api implements a modernized, C++14, header-only serial (COM) driver
 for use with the classic Win32-API.
 
-Initially written in a very old dialect of C++ in 1998, this work has been modernized
-for use with C++14 and beyond.
-
 ## Usage
 
 Using serial_win32api is straightforward.
   - Include the header `serial_win32api.h`.
   - Ensure that its path is included in the compiler's include paths.
   - Use the constructor, and the `send()` and `recv()` functions.
+
+## Example
 
 ```cpp
 #include <vector>
@@ -48,3 +47,8 @@ auto main() -> int
   }
 }
 ```
+
+## History
+
+This work has been modernized in 2023 for use with C++14 and beyond.
+It was originally written in a very old dialect of C++ in 1998.
