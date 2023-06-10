@@ -86,8 +86,6 @@
     <ClInclude Include="serial\serial.h" />
     <ClInclude Include="serial\serial_win32api.h" />
     <ClInclude Include="util_sleep.h" />
-    <ClInclude Include="vacuum_fluorescent_display_base.h" />
-    <ClInclude Include="vacuum_fluorescent_display_nec_fm20x2kb.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".github\workflows\serial_win32api.yml" />
