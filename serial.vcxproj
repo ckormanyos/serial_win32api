@@ -83,7 +83,6 @@
     <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="serial\serial.h" />
     <ClInclude Include="serial\serial_win32api.h" />
     <ClInclude Include="util_sleep.h" />
   </ItemGroup>
