@@ -6,12 +6,14 @@ serial_win32api
         <img src="https://github.com/ckormanyos/serial_win32api/actions/workflows/serial_win32api.yml/badge.svg" alt="Build Status"></a>
 </p>
 
-`serial_win32api` implements a modern, C++14, header-only serial (COM) driver.
-This driver is designed for classic Win32-API in MSVC.
+ckormanyos/serial_win32api implements a modern, C++14, single-file,
+header-only serial (COM) driver.
+
+This serial (COM) driver is designed for classic Win32-API in MSVC.
 
 ## Usage
 
-Using `serial_win32api` is straightforward.
+Using ckormanyos/serial_win32api is straightforward.
   - Include the header `<serial_win32api.h>`.
   - Ensure that its path is included in the compiler's include paths.
   - Use the constructor, and the `send()` and `recv()` functions.
