@@ -4,6 +4,12 @@ serial_win32api
 <p align="center">
     <a href="https://github.com/ckormanyos/serial_win32api/actions">
         <img src="https://github.com/ckormanyos/serial_win32api/actions/workflows/serial_win32api.yml/badge.svg" alt="Build Status"></a>
+    <a href="https://github.com/ckormanyos/serial_win32api/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc">
+        <img src="https://custom-icon-badges.herokuapp.com/github/issues-raw/ckormanyos/serial_win32api?logo=github" alt="Issues" /></a>
+    <a href="https://github.com/ckormanyos/serial_win32api/blob/master/LICENSE_1_0.txt">
+        <img src="https://img.shields.io/badge/license-BSL%201.0-blue.svg" alt="Boost Software License 1.0"></a>
+    <a href="https://godbolt.org/z/zPde9frT6" alt="godbolt">
+        <img src="https://img.shields.io/badge/try%20it%20on-godbolt-green" /></a>
 </p>
 
 ckormanyos/serial_win32api implements a modern, C++14, single-file,
