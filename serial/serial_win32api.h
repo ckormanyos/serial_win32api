@@ -97,7 +97,7 @@
     }
 
     template<typename InputIteratorType>
-    auto send(InputIteratorType first, InputIteratorType last) -> bool
+    auto send_n(InputIteratorType first, InputIteratorType last) -> bool
     {
       const auto vin = ::std::vector<std::uint8_t>(first, last);
 
@@ -110,7 +110,7 @@
 
       const auto ar1 = array_one_byte_type { b };
 
-      return send(ar1.cbegin(), ar1.cend());
+      return send_n(ar1.cbegin(), ar1.cend());
     }
 
     auto set_chan(const std::uint32_t ch) -> bool

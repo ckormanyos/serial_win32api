@@ -24,9 +24,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="util_sleep.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="serial\serial_win32api.h">
       <Filter>Source Files\serial</Filter>
     </ClInclude>
