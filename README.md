@@ -8,14 +8,18 @@ serial_win32api
         <img src="https://custom-icon-badges.herokuapp.com/github/issues-raw/ckormanyos/serial_win32api?logo=github" alt="Issues" /></a>
     <a href="https://github.com/ckormanyos/serial_win32api/blob/master/LICENSE_1_0.txt">
         <img src="https://img.shields.io/badge/license-BSL%201.0-blue.svg" alt="Boost Software License 1.0"></a>
-    <a href="https://godbolt.org/z/zPde9frT6" alt="godbolt">
+    <a href="https://godbolt.org/z/45rjY39Ga" alt="godbolt">
         <img src="https://img.shields.io/badge/try%20it%20on-godbolt-green" /></a>
 </p>
 
 ckormanyos/serial_win32api implements a modern, C++14, single-file,
 header-only serial (COM) driver.
 
-This serial (COM) driver is designed for classic Win32-API in MSVC.
+This library is intended to retain compatibility with C++ language standards
+C++14, 17, 20, 23 and beyond.
+
+This serial (COM) driver is designed for use with the classic Win32-API
+in MSVC.
 
 ## Usage
 
@@ -56,9 +60,6 @@ auto main() -> int
 
 ## History
 
-This work has been modernized in 2023. It is written in C++14
-and intended to retain compatibility with C++ language standards
-C++14, 17, 20, 23 and beyond.
-
-The original implementation used a very old dialect of C++,
-as it was created in 1996-98.
+This work has been modernized in 2023. It has been refactored
+in C++14. The original implementation used a very old dialect
+of C++, as it was created in 1996-98.
