@@ -61,9 +61,9 @@ auto main() -> int
 This work has been modernized in 2023. It has been refactored
 as header-only to be used with C++ language standards C++14, 17, 20, 23 and beyond.
 
-The original implementation was implemented in a very old dialect
-of C++, as it was created in 1996-98. It was, however,
-_good_ _enough_ to modernize with ease.
+The original implementation was written in a very old dialect
+of C++, as it was created in 1996-98. This legacy work was, however,
+_good_ _enough_ to be modernized with ease.
 
 This evolution proves in a small but significant way how
 portable, well-designed code can readily
