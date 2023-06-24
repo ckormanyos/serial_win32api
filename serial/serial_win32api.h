@@ -47,25 +47,25 @@
   class serial
   {
   public:
-    static constexpr int open_Ok                    = 0x00000000;
-    static constexpr int open_BadChannelNumber      = 0x00000001;
-    static constexpr int open_ChannelInUse          = 0x00000002;
-    static constexpr int open_ChannelNotAvailable   = 0x00000004;
-    static constexpr int open_NotEnoughMemory       = 0x00000008;
-    static constexpr int open_InvalidParams         = 0x00000010;
-    static constexpr int open_BadBufferSize         = 0x00000020;
-    static constexpr int open_BaudAdjusted          = 0x00000100;
-    static constexpr int open_BitsAdjusted          = 0x00000200;
-    static constexpr int open_StopAdjusted          = 0x00000400;
-    static constexpr int open_ParityAdjusted        = 0x00000800;
-    static constexpr int open_ModeAdjusted          = 0x00001000;
-    static constexpr int open_ReceiveBufferAdjusted = 0x00002000;
-    static constexpr int open_SendBufferAdjusted    = 0x00004000;
-    static constexpr int open_Error                 =   open_BadChannelNumber
-                                                      | open_ChannelInUse
-                                                      | open_ChannelNotAvailable
-                                                      | open_NotEnoughMemory
-                                                      | open_InvalidParams;
+    static constexpr auto open_Ok                    = static_cast<int>(INT16_C(0x00000000));
+    static constexpr auto open_BadChannelNumber      = static_cast<int>(INT16_C(0x00000001));
+    static constexpr auto open_ChannelInUse          = static_cast<int>(INT16_C(0x00000002));
+    static constexpr auto open_ChannelNotAvailable   = static_cast<int>(INT16_C(0x00000004));
+    static constexpr auto open_NotEnoughMemory       = static_cast<int>(INT16_C(0x00000008));
+    static constexpr auto open_InvalidParams         = static_cast<int>(INT16_C(0x00000010));
+    static constexpr auto open_BadBufferSize         = static_cast<int>(INT16_C(0x00000020));
+    static constexpr auto open_BaudAdjusted          = static_cast<int>(INT16_C(0x00000100));
+    static constexpr auto open_BitsAdjusted          = static_cast<int>(INT16_C(0x00000200));
+    static constexpr auto open_StopAdjusted          = static_cast<int>(INT16_C(0x00000400));
+    static constexpr auto open_ParityAdjusted        = static_cast<int>(INT16_C(0x00000800));
+    static constexpr auto open_ModeAdjusted          = static_cast<int>(INT16_C(0x00001000));
+    static constexpr auto open_ReceiveBufferAdjusted = static_cast<int>(INT16_C(0x00002000));
+    static constexpr auto open_SendBufferAdjusted    = static_cast<int>(INT16_C(0x00004000));
+    static constexpr auto open_Error                 = static_cast<int>(  open_BadChannelNumber
+                                                                        | open_ChannelInUse
+                                                                        | open_ChannelNotAvailable
+                                                                        | open_NotEnoughMemory
+                                                                        | open_InvalidParams);
 
     explicit serial(const std::uint32_t ch,
                     const std::uint32_t bd     = static_cast<std::uint32_t>(UINT16_C(9600)),
@@ -99,16 +99,14 @@
     template<typename InputIteratorType>
     auto send_n(InputIteratorType first, InputIteratorType last) -> bool
     {
-      const auto vin = ::std::vector<std::uint8_t>(first, last);
-
-      return this->do_send(vin);
+      return this->do_send(::std::vector<std::uint8_t>(first, last));
     }
 
     auto send(const std::uint8_t b) -> bool
     {
-      using array_one_byte_type = ::std::array<std::uint8_t, static_cast<std::size_t>(UINT8_C(1))>;
+      using local_array_one_byte_type = ::std::array<std::uint8_t, static_cast<std::size_t>(UINT8_C(1))>;
 
-      const auto ar1 = array_one_byte_type { b };
+      const auto ar1 = local_array_one_byte_type { b };
 
       return send_n(ar1.cbegin(), ar1.cend());
     }
@@ -149,7 +147,7 @@
       return result_set_baud_is_ok;
     }
 
-    auto valid() const -> bool { return (is_open() && (!is_error())); }
+    [[nodiscard]] auto valid() const -> bool { return (is_open() && (!is_error())); }
 
   protected:
     t_scb m_scb { (std::numeric_limits<std::uint32_t>::max)() };
@@ -157,8 +155,8 @@
     bool m_is_open  { false };
     bool m_is_error { false };
 
-    bool is_open() const { return m_is_open;  }
-    bool is_error() const { return m_is_error; }
+    [[nodiscard]] auto is_open () const -> bool { return m_is_open;  }
+    [[nodiscard]] auto is_error() const -> bool { return m_is_error; }
 
   private:
     virtual auto do_send(const ::std::vector<std::uint8_t>& data) -> bool = 0;
@@ -226,25 +224,35 @@
 
       if(is_open())
       {
-        // Reset RTS.
-        static_cast<void>(::EscapeCommFunction(my_handle, CLRRTS));
+        {
+          // Reset RTS.
+          const auto dw_result_clr_rts = ::EscapeCommFunction(my_handle, static_cast<DWORD>(CLRRTS));
 
-        // Reset DTR.
-        static_cast<void>(::EscapeCommFunction(my_handle, CLRDTR));
-
-        // Flush  and close port.
-        static_cast<void>
-        (
-          ::PurgeComm(my_handle,   PURGE_TXABORT
-                                 | PURGE_TXCLEAR
-                                 | PURGE_RXABORT
-                                 | PURGE_RXCLEAR)
-        );
+          result_close_is_ok = (dw_result_clr_rts == static_cast<DWORD>(TRUE));
+        }
 
         {
-          const auto b_close = ::CloseHandle(my_handle);
+          // Reset DTR.
+          const auto dw_result_clr_dtr = ::EscapeCommFunction(my_handle, static_cast<DWORD>(CLRDTR));
 
-          result_close_is_ok = (b_close == TRUE);
+          result_close_is_ok = ((dw_result_clr_dtr == static_cast<DWORD>(TRUE)) && result_close_is_ok);
+        }
+
+        {
+          // Flush  and close port.
+          const auto dw_result_purge =
+            ::PurgeComm(my_handle, static_cast<DWORD>(  PURGE_TXABORT
+                                                      | PURGE_TXCLEAR
+                                                      | PURGE_RXABORT
+                                                      | PURGE_RXCLEAR));
+
+          result_close_is_ok = ((dw_result_purge == static_cast<DWORD>(TRUE)) && result_close_is_ok);
+        }
+
+        {
+          const auto dw_result_close_handle = ::CloseHandle(my_handle);
+
+          result_close_is_ok = ((dw_result_close_handle == static_cast<DWORD>(TRUE)) && result_close_is_ok);
         }
 
         my_handle = nullptr;
@@ -267,7 +275,12 @@
 
       if(count_ready != static_cast<std::uint32_t>(UINT8_C(0)))
       {
-        // Resize the vector. Release it's buffer first.
+        // Resize the vector and thereby release it's buffer.
+        // Note: The resize actually unabatedly ignores the
+        // serial control block's software-set reveive-buffer-size.
+        // This is OK for PC applications but perhaps wouldn't be OK
+        // as a design on something like an embedded target.
+
         recv_buf = ::std::vector<std::uint8_t> { };
 
         recv_buf.resize(static_cast<std::size_t>(count_ready));
@@ -305,8 +318,9 @@
 
         static_cast<void>(::ClearCommError(my_handle, &errors, &stat));
 
-        result_send_is_in_progress =
-          (static_cast<std::uint32_t>(static_cast<std::uint32_t>(stat.cbOutQue)) != static_cast<std::uint32_t>(UINT8_C(0)));
+        const auto count_from_outqueue = static_cast<std::uint32_t>(static_cast<std::uint32_t>(stat.cbOutQue));
+
+        result_send_is_in_progress = (count_from_outqueue != static_cast<std::uint32_t>(UINT8_C(0)));
       }
       else
       {
@@ -318,7 +332,7 @@
 
     auto recv_ready() const -> std::uint32_t override
     {
-      auto count_ready = std::uint32_t { };
+      auto count_from_inqueue = std::uint32_t { };
 
       if(is_open())
       {
@@ -327,14 +341,14 @@
 
         static_cast<void>(::ClearCommError(my_handle, &errors, &stat));
 
-        count_ready = static_cast<std::uint32_t>(stat.cbInQue);
+        count_from_inqueue = static_cast<std::uint32_t>(stat.cbInQue);
       }
       else
       {
-        count_ready = static_cast<std::uint32_t>(UINT8_C(0));
+        count_from_inqueue = static_cast<std::uint32_t>(UINT8_C(0));
       }
 
-      return count_ready;
+      return count_from_inqueue;
     }
 
   private:
@@ -392,27 +406,27 @@
 
         switch(dw_error)
         {
-          case IE_BADID:
-            result |= open_BadChannelNumber;
+          case static_cast<DWORD>(IE_BADID):
+            result |= static_cast<std::uint32_t>(open_BadChannelNumber);
             break;
 
-          case IE_OPEN:
-            result |= open_ChannelInUse;
+          case static_cast<DWORD>(IE_OPEN):
+            result |= static_cast<std::uint32_t>(open_ChannelInUse);
             break;
 
-          case IE_MEMORY:
-            result |= open_NotEnoughMemory;
+          case static_cast<DWORD>(IE_MEMORY):
+            result |= static_cast<std::uint32_t>(open_NotEnoughMemory);
             break;
 
-          case IE_DEFAULT:
-          case IE_BYTESIZE:
-          case IE_BAUDRATE:
-            result |= open_InvalidParams;
+          case static_cast<DWORD>(IE_DEFAULT):
+          case static_cast<DWORD>(IE_BYTESIZE):
+          case static_cast<DWORD>(IE_BAUDRATE):
+            result |= static_cast<std::uint32_t>(open_InvalidParams);
             break;
 
-          case IE_HARDWARE:
-          case IE_NOPEN:
-            result |= open_ChannelNotAvailable;
+          case static_cast<DWORD>(IE_HARDWARE):
+          case static_cast<DWORD>(IE_NOPEN):
+            result |= static_cast<std::uint32_t>(open_ChannelNotAvailable);
             break;
         }
 
@@ -420,9 +434,9 @@
       }
       else
       {
-        if(::SetupComm(my_handle, scb.recv_buf_len, scb.send_buf_len) == FALSE)
+        if(::SetupComm(my_handle, scb.recv_buf_len, scb.send_buf_len) == static_cast<DWORD>(FALSE))
         {
-          result |= open_BadBufferSize;
+          result |= static_cast<std::uint32_t>(open_BadBufferSize);
 
           return false;
         }
@@ -447,33 +461,36 @@
         dcb.fInX              = static_cast<DWORD>(UINT8_C(0));           // Disable input X-ON/X-OFF
         dcb.fTXContinueOnXoff = static_cast<DWORD>(UINT8_C(0));           // Do not continue TX when Xoff sent
 
-        if(!::SetCommState(my_handle, &dcb))
+        if(::SetCommState(my_handle, &dcb) == static_cast<DWORD>(FALSE))
         {
-          result |= open_InvalidParams;
+          result |= static_cast<std::uint32_t>(open_InvalidParams);
 
           return false;
         }
 
+        const auto baud_mod =
+          static_cast<std::uint32_t>
+          (
+            static_cast<std::uint32_t>(CBR_115200) % scb.baud
+          );
+
         // Analyze baud rate.
-        const auto needs_baud_adjust =
-        (
-          static_cast<std::uint32_t>(static_cast<std::uint32_t>(CBR_115200) % scb.baud) != static_cast<std::uint32_t>(UINT8_C(0))
-        );
+        const auto needs_baud_adjust = (baud_mod != static_cast<std::uint32_t>(UINT8_C(0)));
 
         // Set the serial control block.
         m_scb = scb;
 
         if(needs_baud_adjust)
         {
-          result |= open_BaudAdjusted;
+          result |= static_cast<std::uint32_t>(open_BaudAdjusted);
         }
 
         const volatile auto b_reset =
-          ::SetCommMask(my_handle,  EV_TXEMPTY
-                                  | EV_CTS
-                                  | EV_DSR
-                                  | EV_BREAK
-                                  | EV_ERR);
+          ::SetCommMask(my_handle, static_cast<DWORD>(  EV_TXEMPTY
+                                                      | EV_CTS
+                                                      | EV_DSR
+                                                      | EV_BREAK
+                                                      | EV_ERR));
 
         static_cast<void>(b_reset);
 
@@ -573,8 +590,11 @@
 
                   // Sleep 0ms or, occasionally, 10ms.
                   {
+                    const auto scale_mod =
+                      static_cast<std::uint32_t>(++scale % static_cast<std::uint32_t>(UINT8_C(0x10)));
+
                     const auto use_scale =
-                      (static_cast<std::uint32_t>(++scale % static_cast<std::uint32_t>(UINT8_C(0x10))) == static_cast<std::uint32_t>(UINT8_C(0)));
+                      (scale_mod == static_cast<std::uint32_t>(UINT8_C(0)));
 
                     const auto sleep_amount =
                       static_cast<DWORD>
