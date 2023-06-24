@@ -15,18 +15,16 @@ serial_win32api
 ckormanyos/serial_win32api implements a modern, C++14, single-file,
 header-only serial (COM) driver.
 
-This library is intended to retain compatibility with C++ language standards
-C++14, 17, 20, 23 and beyond.
-
 This serial (COM) driver is designed for use with the classic Win32-API
-in MSVC.
+in MSVC. The library is intended to retain compatibility
+with C++ language standards C++14, 17, 20, 23 and beyond.
 
 ## Usage
 
 Using ckormanyos/serial_win32api is straightforward.
   - Include the header `<serial_win32api.h>`.
-  - Ensure that its path is included in the compiler's include paths.
-  - Use the constructor, and the `send()` and `recv()` functions.
+  - Prior to inclusion of the header, of course, ensure that the header's path is included in the compiler's include paths.
+  - Use `serial_win32api`'s  constructor, its `send()` and `recv()` functions, and other public class methods (see example below).
 
 ## Example
 
@@ -61,5 +59,13 @@ auto main() -> int
 ## History
 
 This work has been modernized in 2023. It has been refactored
-in C++14. The original implementation used a very old dialect
-of C++, as it was created in 1996-98.
+as header-only to be used with C++ language standards C++14, 17, 20, 23 and beyond.
+
+The original implementation was implemented in a very old dialect
+of C++, as it was created in 1996-98. It was, however,
+_good_ _enough_ to modernize with ease.
+
+This evolution proves in a small but significant way how
+portable, well-designed code can readily
+be adapted and remain _good_ _enough_ to be used
+for a long time.
