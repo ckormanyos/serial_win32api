@@ -44,7 +44,7 @@
     std::uint32_t recv_buf_len { static_cast<std::uint32_t>(UINT32_C(0x10000)) };
   };
 
-  class serial
+  class serial_base
   {
   public:
     static constexpr auto open_Ok                    = static_cast<int>(INT16_C(0x00000000));
@@ -67,21 +67,21 @@
                                                                         | open_NotEnoughMemory
                                                                         | open_InvalidParams);
 
-    explicit serial(const std::uint32_t ch,
-                    const std::uint32_t bd     = static_cast<std::uint32_t>(UINT16_C(9600)),
-                    const std::uint32_t n_send = static_cast<std::uint32_t>(UINT32_C(0x10000)),
-                    const std::uint32_t n_recv = static_cast<std::uint32_t>(UINT32_C(0x10000)))
+    explicit serial_base(const std::uint32_t ch,
+                         const std::uint32_t bd     = static_cast<std::uint32_t>(UINT16_C(9600)),
+                         const std::uint32_t n_send = static_cast<std::uint32_t>(UINT32_C(0x10000)),
+                         const std::uint32_t n_recv = static_cast<std::uint32_t>(UINT32_C(0x10000)))
       : m_scb(ch, bd, n_send, n_recv) { }
 
-    serial() = delete;
+    serial_base() = delete;
 
-    serial(const serial&) = delete;
-    serial(serial&&) noexcept = delete;
+    serial_base(const serial_base&) = delete;
+    serial_base(serial_base&&) noexcept = delete;
 
-    auto operator=(const serial&) -> serial& = delete;
-    auto operator=(serial&&) noexcept -> serial& = delete;
+    auto operator=(const serial_base&) -> serial_base& = delete;
+    auto operator=(serial_base&&) noexcept -> serial_base& = delete;
 
-    virtual ~serial() = default;
+    virtual ~serial_base() = default;
 
     virtual auto open(const t_scb& scb, std::uint32_t& result) -> bool = 0;
     virtual auto close() -> bool = 0;
@@ -162,14 +162,14 @@
     virtual auto do_send(const ::std::vector<std::uint8_t>& data) -> bool = 0;
   };
 
-  class serial_win32api : public serial
+  class serial_win32api : public serial_base
   {
   public:
     explicit serial_win32api(const std::uint32_t ch,
                              const std::uint32_t bd     = static_cast<std::uint32_t>(UINT16_C(9600)),
                              const std::uint32_t n_send = static_cast<std::uint32_t>(UINT32_C(0x10000)),
                              const std::uint32_t n_recv = static_cast<std::uint32_t>(UINT32_C(0x10000)))
-      : serial(ch, bd, n_send, n_recv)
+      : serial_base(ch, bd, n_send, n_recv)
     {
       auto result_to_get = std::uint32_t { };
 
